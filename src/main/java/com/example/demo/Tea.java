@@ -1,7 +1,9 @@
 package com.example.demo;
 
-import java.util.UUID;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.util.UUID;
+@JsonSerialize
 class Tea {
     private final String id;
     private String name;

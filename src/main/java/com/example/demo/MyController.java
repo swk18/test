@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,24 +12,45 @@ import java.util.Optional;
 
 @RestController
 class MyController {
+
+    private ObjectMapper objectMapper = new ObjectMapper();
     private List<Tea> teas = new ArrayList<>();
 
     public MyController(){
         teas.addAll(List.of(
-                new Tea("Зеленный"),
+                new Tea("1234","Зеленный"),
                 new Tea("Черный"),
                 new Tea("Красный"),
                 new Tea("Пуэро")
         ));
+
+//        teas.add(null);
     }
     @GetMapping("/teas/{id}")      // @RequestMapping(value = "/teas", method = RequestMethod.GET)
     Optional<Tea> getTeaById(@PathVariable String id){
+        //TODO: как работает optional и обработка исключений
         for(Tea t: teas){
             if(t.getId().equals(id)) {
                 return Optional.of(t);
             }
         }
         return Optional.empty();
+
+//        return Optional.of(null).orElseGet(new Tea("Неизвестный чай"));
+
+    }
+
+    @GetMapping("/teas/notOptional/{id}")      // @RequestMapping(value = "/teas", method = RequestMethod.GET)
+    String getTeaByIdNotOptional(@PathVariable String id) throws JsonProcessingException {
+        for(Tea t: teas){
+            if(t.getId().equals(id)) {
+                return objectMapper.writeValueAsString(t);
+            }
+        }
+
+        MyError myError = new MyError("Чай не найден");
+
+        return objectMapper.writeValueAsString(myError);
     }
 
     @PostMapping("/teas")  // @RequestMapping(value = "/teas", method = RequestMethod.POST)
