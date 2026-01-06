@@ -1,0 +1,31 @@
+{
+	"info": {
+		"_postman_id": "94a588ce-60e0-49d0-97de-19becee45ebd",
+		"name": "test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "51297612",
+		"_collection_link": "https://a6ossum-5254325.postman.co/workspace/Andrey's-Workspace~a49451ff-aa93-4c8a-8108-c86f0dc9f80e/collection/51297612-94a588ce-60e0-49d0-97de-19becee45ebd?action=share&source=collection_link&creator=51297612"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/teas/1234",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"teas",
+						"1234"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
