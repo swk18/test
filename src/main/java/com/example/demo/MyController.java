@@ -23,34 +23,19 @@ class MyController {
                 new Tea("Красный"),
                 new Tea("Пуэро")
         ));
-
-//        teas.add(null);
     }
     @GetMapping("/teas/{id}")      // @RequestMapping(value = "/teas", method = RequestMethod.GET)
-    Optional<Tea> getTeaById(@PathVariable String id){
-        //TODO: как работает optional и обработка исключений
+    Object getTeaById(@PathVariable String id){
         for(Tea t: teas){
-            if(t.getId().equals(id)) {
-                return Optional.of(t);
-            }
-        }
-        return Optional.empty();
-
-//        return Optional.of(null).orElseGet(new Tea("Неизвестный чай"));
-
-    }
-
-    @GetMapping("/teas/notOptional/{id}")      // @RequestMapping(value = "/teas", method = RequestMethod.GET)
-    String getTeaByIdNotOptional(@PathVariable String id) throws JsonProcessingException {
-        for(Tea t: teas){
-            if(t.getId().equals(id)) {
-                return objectMapper.writeValueAsString(t);
+            Tea tea = Optional.of(t).get();  // Если t=null, то Optional выкинет исключение NPE (NullPointerException).
+            if(tea.getId().equals(id)) {
+                return tea;
             }
         }
 
-        MyError myError = new MyError("Чай не найден");
+        MyError myError = new MyError("Чай не найден"); // Если чай не найден, возвращаем объект с ошибкой в ответ в виде JSON
 
-        return objectMapper.writeValueAsString(myError);
+        return myError;
     }
 
     @PostMapping("/teas")  // @RequestMapping(value = "/teas", method = RequestMethod.POST)
@@ -58,7 +43,6 @@ class MyController {
         teas.add(tea);
         return tea;
     }
-
 
     @PutMapping("/{id}")
     ResponseEntity<Tea> putTea(@PathVariable String id, @RequestBody Tea tea) {
