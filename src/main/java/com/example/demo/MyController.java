@@ -15,16 +15,23 @@ class MyController {
 
     private ObjectMapper objectMapper = new ObjectMapper();
     private List<Tea> teas = new ArrayList<>();
+    private Object Tea;
 
     public MyController(){
         teas.addAll(List.of(
-                new Tea("1234","Зеленный"),
+                new Tea("Зеленный"),
                 new Tea("Черный"),
                 new Tea("Красный"),
                 new Tea("Пуэро")
         ));
     }
-    @GetMapping("/teas/{id}")      // @RequestMapping(value = "/teas", method = RequestMethod.GET)
+    @GetMapping("/teas")   // Связал URL с методом teas для отображения всего списка «чая».
+    Iterable<Tea> getTeas(){
+        return teas;
+    }
+
+
+    @GetMapping("/{id}")      // @RequestMapping(value = "/teas", method = RequestMethod.GET)
     Object getTeaById(@PathVariable String id){
         for(Tea t: teas){
             Tea tea = Optional.of(t).get();  // Если t=null, то Optional выкинет исключение NPE (NullPointerException).
@@ -38,24 +45,24 @@ class MyController {
         return myError;
     }
 
-    @PostMapping("/teas")  // @RequestMapping(value = "/teas", method = RequestMethod.POST)
+    @PostMapping  // @RequestMapping(value = "/teas", method = RequestMethod.POST)
     Tea postTea(@RequestBody Tea tea){
         teas.add(tea);
         return tea;
-    }
+        }
 
     @PutMapping("/{id}")
-    ResponseEntity<Tea> putTea(@PathVariable String id, @RequestBody Tea tea) {
+    Tea putTea(@PathVariable String id, @RequestBody Tea tea) {
         int teaNumber = -1;
-        for (Tea c : teas) {
-            if (c.getId().equals(id)) {
-                teaNumber = teas.indexOf(c);
+
+        for (Tea t : teas) {
+            if (t.getId().equals(id)) {
+                teaNumber = teas.indexOf(t);
                 teas.set(teaNumber, tea);
             }
         }
-        return (teaNumber == -1) ?
-                new ResponseEntity<>(postTea(tea), HttpStatus.CREATED) :
-                new ResponseEntity<>(tea, HttpStatus.OK);
+        return (teaNumber == -1) ? postTea(tea) : tea;
+
     }
 
 
