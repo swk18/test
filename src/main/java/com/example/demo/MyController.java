@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/teas")
 class MyController {
 
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -19,7 +20,7 @@ class MyController {
 
     public MyController(){
         teas.addAll(List.of(
-                new Tea("Зеленный"),
+                new Tea("12","Зеленный"),
                 new Tea("Черный"),
                 new Tea("Красный"),
                 new Tea("Пуэро")
@@ -29,6 +30,7 @@ class MyController {
     Iterable<Tea> getTeas(){
         return teas;
     }
+
 
 
     @GetMapping("/{id}")      // @RequestMapping(value = "/teas", method = RequestMethod.GET)
@@ -45,7 +47,7 @@ class MyController {
         return myError;
     }
 
-    @PostMapping  // @RequestMapping(value = "/teas", method = RequestMethod.POST)
+    @PostMapping // @RequestMapping(value = "/teas", method = RequestMethod.POST)
     Tea postTea(@RequestBody Tea tea){
         teas.add(tea);
         return tea;

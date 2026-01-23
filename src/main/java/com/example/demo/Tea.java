@@ -5,14 +5,17 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.UUID;
 @JsonSerialize
 class Tea {
-    private final String id;
+    private  String id;
     private String name;
 
     public Tea(String id, String name) {
         this.id = id;
         this.name = name;
     }
+    public Tea() {
 
+
+    }
     public Tea(String name) {
 
         this(UUID.randomUUID().toString(), name);
@@ -33,4 +36,7 @@ class Tea {
         this.name = "Черный";
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
 }
