@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/teas")
+@RequestMapping
 class MyController {
 
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -21,9 +21,12 @@ class MyController {
     public MyController(){
         teas.addAll(List.of(
                 new Tea("12","Зеленный"),
-                new Tea("Черный"),
-                new Tea("Красный"),
-                new Tea("Пуэро")
+                new Tea("13","Черный"),
+                new Tea("14","Красный"),
+                new Tea("15","Пуэро"),
+                new Tea("Лимоный"),
+                new Tea("Ягодный"),
+                new Tea("Ванильный")
         ));
     }
     @GetMapping("/teas")   // Связал URL с методом teas для отображения всего списка «чая».
